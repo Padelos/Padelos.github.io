@@ -346,7 +346,7 @@ function preprocessTextureImage(imageURL, textureObject) {
 		gl.generateMipmap(gl.TEXTURE_2D);
 	};
 	//	21.3 Φόρτωσε την εικόνα
-	imageObject.src = imageURL;	
+	imageObject.src = imageURL;
 }
   
 function drawScene() { 
@@ -808,6 +808,68 @@ function cursorMove(event){
 	}
 }
 
+function canvasMouseUp(event){
+	mouseDown = false;
+	dX = 0;
+	dY = 0;
+	//totalDX = 0;
+	//totalDY = 0;
+	console.log("mouse down:",mouseDown);
+}
+
+
+var touchDown = false;
+function canvasTouchDown(event){
+	touchDown = true;
+	bMouseX = event.touches[0].clientX;
+	bMouseY = event.touches[0].clientY;
+	dX = 0;
+	dY = 0;
+	console.log("touch down:",touchDown);
+	console.log("bMouseX:",bMouseX);
+	console.log("bMouseY:",bMouseY);
+}
+
+function touchMove(event){
+	if(touchDown){
+		aMouseX = event.touches[0].clientX;
+		aMouseY = event.touches[0].clientY;
+	
+		
+		dX = aMouseX - bMouseX;
+		dY = aMouseY - bMouseY;
+		console.log("dx:",dX);
+		console.log("dy:",dY);
+		
+		totalDX += dX;
+		totalDY += dY;
+	
+	
+		//if(!requestID)
+		//	drawScene();
+
+		//console.log("aMouseX:",aMouseX);
+		//console.log("aMouseY:",aMouseY);
+		//console.log("bMouseX:",bMouseX);
+		//console.log("bMouseY:",bMouseY);
+	
+		bMouseX = aMouseX;
+		bMouseY = aMouseY;
+		
+		if(requestID == 0)
+			drawScene();
+	}
+}
+
+function canvasTouchUp(event){
+	touchDown = false;
+	dX = 0;
+	dY = 0;
+	//totalDX = 0;
+	//totalDY = 0;
+	console.log("touch down:",touchDown);
+}
+
 
 document.addEventListener('DOMContentLoaded', function() {
     const rangeAngleView = document.getElementById('rangeAngleView');
@@ -825,17 +887,15 @@ document.addEventListener('DOMContentLoaded', function() {
 	canvas = document.getElementById("sceneCanvas");
 	
 	canvas.addEventListener('mousedown',canvasMouseDown);
-	window.addEventListener('mouseup',function (event){
-		mouseDown = false;
-		dX = 0;
-		dY = 0;
-		//totalDX = 0;
-		//totalDY = 0;
-		console.log("mouse down:",mouseDown);
-	});
-	
-	
+	window.addEventListener('mouseup',canvasMouseUp);
 	canvas.addEventListener('mousemove',cursorMove);
+	
+	
+	canvas.addEventListener('touchstart',canvasTouchDown);
+	window.addEventListener('touchcancel',canvasTouchUp);
+	window.addEventListener('touchend',canvasTouchUp);
+	canvas.addEventListener('touchmove',touchMove);
+	
 	/*
 	const startRotate = document.getElementById('startRotate');
 	
