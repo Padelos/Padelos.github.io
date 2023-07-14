@@ -503,6 +503,10 @@ function drawDog(){
 	glMatrix.mat4.fromTranslation(translationMatrix,[-x,-y,z]);
 	glMatrix.mat4.multiply(finalM,translationMatrix,scaleMatrix);
 	
+	if(radioChoise[9].checked){
+		finalM = rescaleFeet(finalM,[-4.5,-8,1]);
+		//console.log("tail");
+	}
 	
 	gl.uniformMatrix4fv(modelUniformPointer, false, finalM); 
 	gl.drawArrays(gl.TRIANGLES, 0, vertexBuffer.itemCount);
@@ -514,12 +518,21 @@ function drawDog(){
 		finalM = moveLeg(finalM,[4.5,4.5,8]);
 		//console.log("tail");
 	}
+	else if(radioChoise[9].checked){
+		finalM = rescaleFeet(finalM,[4.5,3,1]);
+		//console.log("tail");
+	}
 	
 	gl.uniformMatrix4fv(modelUniformPointer, false, finalM); 
 	gl.drawArrays(gl.TRIANGLES, 0, vertexBuffer.itemCount);
 	
 	glMatrix.mat4.fromTranslation(translationMatrix,[x,-y,z]);
 	glMatrix.mat4.multiply(finalM,translationMatrix,scaleMatrix);
+	
+	if(radioChoise[9].checked){
+		finalM = rescaleFeet(finalM,[4.5,-8,1]);
+		//console.log("tail");
+	}
 	
 	
 	gl.uniformMatrix4fv(modelUniformPointer, false, finalM); 
@@ -530,6 +543,10 @@ function drawDog(){
 	
 	if(radioChoise[4].checked){
 		finalM = moveLeg(finalM,[-4.5,4.5,8]);
+		//console.log("tail");
+	}
+	else if(radioChoise[9].checked){
+		finalM = rescaleFeet(finalM,[-4.5,3,1]);
 		//console.log("tail");
 	}
 	
@@ -620,7 +637,7 @@ function drawDog(){
 	glMatrix.mat4.fromTranslation(translationMatrix,[x,y,z]);
 	glMatrix.mat4.multiply(finalM,translationMatrix,scaleMatrix);
 	
-	if(radioChoise[1].checked){
+	if(radioChoise[1].checked || radioChoise[9].checked){
 		finalM = moveTail(finalM);
 		//console.log("tail");
 	}
@@ -644,6 +661,10 @@ function drawDog(){
 	
 	if(radioChoise[2].checked){
 		finalM = moveHead(finalM,[0,4,11.5]);
+		//console.log("tail");
+	}
+	else if(radioChoise[9].checked){
+		finalM = moveHeadFullRotate(finalM,[0,4,11.5]);
 		//console.log("tail");
 	}
 	
@@ -679,6 +700,10 @@ function drawDog(){
 	
 	if(radioChoise[2].checked){
 		finalM = moveHead(finalM,[0,4,15]);
+		//console.log("tail");
+	}
+	else if(radioChoise[9].checked){
+		finalM = moveHeadFullRotate(finalM,[0,4,15]);
 		//console.log("tail");
 	}
 	
@@ -718,6 +743,10 @@ function drawDog(){
 		finalM = moveHead(finalM,[0,4,14.5]);
 		//console.log("tail");
 	}
+	else if(radioChoise[9].checked){
+		finalM = moveHeadFullRotate(finalM,[0,4,14.5]);
+		//console.log("tail");
+	}
 	
 	gl.uniformMatrix4fv(modelUniformPointer, false, finalM); 
 	gl.drawArrays(gl.TRIANGLES, 0, vertexBuffer.itemCount);
@@ -727,6 +756,10 @@ function drawDog(){
 	
 	if(radioChoise[2].checked){
 		finalM = moveHead(finalM,[0,4,14.5]);
+		//console.log("tail");
+	}
+	else if(radioChoise[9].checked){
+		finalM = moveHeadFullRotate(finalM,[0,4,14.5]);
 		//console.log("tail");
 	}
 	
@@ -775,12 +808,17 @@ function drawDog(){
 	gl.uniformMatrix4fv(modelUniformPointer, false, finalM); 
 	gl.drawArrays(gl.TRIANGLES, 0, vertexBuffer.itemCount);
 
+	scrollActive = false;
 }
 
 var rotateTailAngle = 0.0;
 var rotateHeadAngle = 0.0;
 var addAngle = 2;
 var scrollActive = false;
+var totalScale = 1.0;
+var scaleStep = 0.05;
+var feetTimes = 0;
+
 
 function addAngleTo(addTo, pos, topLim, botLim){
 	if(topLim < addTo || botLim > addTo)
@@ -795,7 +833,6 @@ function moveTail(originalPart){
 	
 	if(requestID != 0 || scrollActive){
 		[rotateTailAngle,addAngle] = addAngleTo(rotateTailAngle,addAngle,180,0);
-		scrollActive = false;
 	}
 	
 	//console.log("rotateTailAngle:",rotateTailAngle);
@@ -820,7 +857,31 @@ function moveHead(originalPart,center){
 	
 	if(requestID != 0 || scrollActive){
 		[rotateHeadAngle,addAngle] = addAngleTo(rotateHeadAngle,addAngle,90,-90);
-		scrollActive = false;
+	}
+	
+	//console.log("rotateHeadAngle:",rotateHeadAngle);
+	//console.log("addAngle:",addAngle);
+	
+	var rotation = glMatrix.mat4.create();
+	var translation = glMatrix.mat4.create();
+
+	glMatrix.mat4.fromTranslation(translation, [-x, -y, -z]);
+	glMatrix.mat4.multiply(originalPart, translation, originalPart);
+	glMatrix.mat4.fromRotation(rotation, rotateHeadAngle * Math.PI/180.0, [0, 0, 1]);
+	glMatrix.mat4.multiply(originalPart, rotation, originalPart);
+	glMatrix.mat4.fromTranslation(translation, [x, y, z]);
+	glMatrix.mat4.multiply(originalPart, translation, originalPart);
+	return originalPart;
+}
+
+function moveHeadFullRotate(originalPart,center){
+	var x = center[0];
+	var y = center[1];
+	var z = center[2];
+	
+	if(requestID != 0 || scrollActive){
+		//[rotateHeadAngle,addAngle] = addAngleTo(rotateHeadAngle,addAngle,rotateHeadAngle+1,-360);
+		rotateHeadAngle += 2;
 	}
 	
 	//console.log("rotateHeadAngle:",rotateHeadAngle);
@@ -845,7 +906,6 @@ function moveLeg(originalPart,center){
 	
 	if(requestID != 0 || scrollActive){
 		[rotateHeadAngle,addAngle] = addAngleTo(rotateHeadAngle,addAngle,90,0);
-		scrollActive = false;
 	}
 	
 	//console.log("rotateHeadAngle:",rotateHeadAngle);
@@ -858,6 +918,47 @@ function moveLeg(originalPart,center){
 	glMatrix.mat4.multiply(originalPart, translation, originalPart);
 	glMatrix.mat4.fromRotation(rotation, rotateHeadAngle * Math.PI/180.0, [1, 0, 0]);
 	glMatrix.mat4.multiply(originalPart, rotation, originalPart);
+	glMatrix.mat4.fromTranslation(translation, [x, y, z]);
+	glMatrix.mat4.multiply(originalPart, translation, originalPart);
+	return originalPart;
+}
+
+function addScaleTo(addTo,pos,topLim,botLim){
+
+	if(topLim < addTo || botLim > addTo)
+		pos *= -1;
+	
+	addTo += pos;
+	console.log("topLim < addTo || botLim > addTo");
+	console.log(topLim," < ",addTo," || ",botLim," > ",addTo);
+	return [addTo,pos];
+}
+
+function rescaleFeet(originalPart,center){
+	var x = center[0];
+	var y = center[1];
+	var z = center[2];
+	
+	if(requestID != 0 || scrollActive){
+		
+		feetTimes += 1;
+		if(feetTimes%4 == 0)
+			[totalScale,scaleStep] = addScaleTo(totalScale,scaleStep,1.5,1);
+		
+		
+		
+		console.log("x,y -> ",x,",",y);
+		console.log("totalScale:",totalScale);
+		console.log("scaleStep:",scaleStep);
+	}
+	
+	var scale = glMatrix.mat4.create();
+	var translation = glMatrix.mat4.create();
+
+	glMatrix.mat4.fromTranslation(translation, [-x, -y, -z]);
+	glMatrix.mat4.multiply(originalPart, translation, originalPart);
+	glMatrix.mat4.fromScaling(scale,[totalScale, totalScale, 1]);
+	glMatrix.mat4.multiply(originalPart, scale, originalPart);
 	glMatrix.mat4.fromTranslation(translation, [x, y, z]);
 	glMatrix.mat4.multiply(originalPart, translation, originalPart);
 	return originalPart;
@@ -894,6 +995,7 @@ function onPositionChange(event){
 	totalDY = 0;
 	totalDX = 0;
 	rotateAngle = 0.0;
+	totalScale = 1.0;
 	if(requestID == 0)
 		drawScene();
 }
@@ -978,6 +1080,7 @@ function canvasMouseUp(event){
 		startRotate();
 	}
 }
+
 
 function wheelActive(event){
 	//addAngleTo(rotateTailAngle,addAngle,180,0);
