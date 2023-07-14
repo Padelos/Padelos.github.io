@@ -3,12 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<style>
-	.stop-scrolling {
-		height: 100%;
-		overflow: hidden;
-	}
-</style>
 <script src="webgl-debug.js"></script> 
 <script src="gl-matrix-min.js"></script>
 
@@ -45,7 +39,7 @@
  	}
 </script>
  
-<script src="step_9.js"></script>
+<script src="step_10.js"></script>
 
  
 </head>
@@ -76,10 +70,25 @@
 		<input type="radio" id="RBB" name="step3" value="RBB">
 		<label for="RBB">Right-Back-Bottom</label>
 	</form>
-	<input type="submit" value="Submit" onclick="onPositionChange(event)">
+	<!--<input type="submit" value="Submit" onclick="onPositionChange(event)">-->
 	<br>
 	<button value="Start" onclick="startRotate()"><i class="fa-solid fa-play fa-lg" style="color: #3cd21e;"></i></button>
 	<button value="Stop"  onclick="stopRotate()"><i class="fa-solid fa-pause fa-lg" style="color: #e91616;"></i></button>
+	
+	<form id="trick">
+		<input type="radio" id="None" name="step10" value="None" checked>
+		<label for="None">None</label>
+		<input type="radio" id="Tail" name="step10" value="Tail">
+		<label for="Tail">Tail</label>
+		<input type="radio" id="Head" name="step10" value="Head">
+		<label for="Head">Head</label>
+		<input type="radio" id="Right-Feet" name="step10" value="Right-Feet">
+		<label for="Right-Feet">Right-Feet</label>
+		<input type="radio" id="Left-Feet" name="step10" value="Left-Feet">
+		<label for="Left-Feet">Left-Feet</label>
+	</form>
+	<input type="submit" value="Submit" onclick="onPositionChange(event)">
+	<br>
 </div>
 
 </body>
