@@ -3,6 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+	.stop-scrolling {
+		height: 100%;
+		overflow: hidden;
+	}
+</style>
 <script src="webgl-debug.js"></script> 
 <script src="gl-matrix-min.js"></script>
 
@@ -46,7 +52,7 @@
 
 <body onload="main()">
 <div style = "text-align:center;">
-	<canvas id="sceneCanvas" width="750" height="750" style="border:1px solid"></canvas>
+	<canvas id="sceneCanvas" width="750" height="750" style="border:1px solid" ></canvas>
 	
 	<br>View Angle (degrees):<input type="text" id="viewAngle" value="90" autocomplete="off">-180<input type="range" id="rangeAngleView" min="-180" max="180" value="90.0" step="1">180
 	

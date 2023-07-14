@@ -819,8 +819,12 @@ function canvasMouseUp(event){
 
 
 var touchDown = false;
+
 function canvasTouchDown(event){
 	touchDown = true;
+	
+	document.body.classList.add("stop-scrolling");
+	
 	bMouseX = event.touches[0].clientX;
 	bMouseY = event.touches[0].clientY;
 	dX = 0;
@@ -863,6 +867,7 @@ function touchMove(event){
 
 function canvasTouchUp(event){
 	touchDown = false;
+	document.body.classList.remove("stop-scrolling");
 	dX = 0;
 	dY = 0;
 	//totalDX = 0;
