@@ -5,6 +5,22 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <script src="webgl-debug.js"></script> 
 <script src="gl-matrix-min.js"></script>
+<style>
+    .circle-info {
+      color: #b22a2a;
+      transition: transform 0.2s;
+    }
+
+    .circle-info:hover {
+      transform: scale(1.2);
+    }
+	
+	.borderless-button {
+      border: none;
+      outline: none;
+	  background-color: transparent;
+    }
+</style>
 
 <script id="vShader" type="x-shader/x-vertex">
 
@@ -45,6 +61,7 @@
 </head>
 
 <body onload="main()">
+<button value="Stop"  onclick="help()" class ="borderless-button"><i class="fa-solid fa-circle-info fa-2xl circle-info" style="color: #b22a2a;"></i></button>
 <div style = "text-align:center;">
 	<canvas id="sceneCanvas" width="750" height="750" style="border:1px solid" ></canvas>
 	
@@ -72,8 +89,8 @@
 	</form>
 	<!--<input type="submit" value="Submit" onclick="onPositionChange(event)">-->
 	<br>
-	<button value="Start" onclick="startRotate()"><i class="fa-solid fa-play fa-lg" style="color: #3cd21e;"></i></button>
-	<button value="Stop"  onclick="stopRotate()"><i class="fa-solid fa-pause fa-lg" style="color: #e91616;"></i></button>
+	<button value="Start" onclick="startRotate()"><i class="fa-solid fa-play fa-xl" style="color: #3cd21e;"></i></button>
+	<button value="Stop"  onclick="stopRotate()"><i class="fa-solid fa-pause fa-xl" style="color: #e91616;"></i></button>
 	
 	<form id="trick">
 		<input type="radio" id="None" name="step10" value="None" checked>

@@ -1454,6 +1454,10 @@ function canvasTouchUp(event){
 }
 
 
+function help(){
+	alert("p or space: pause/play\n"+"enter:submit\n"+"tab:next animation\n"+"shift + tab:prev animation\n"+"Παντελής Πρώιος 18390023");
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     const rangeAngleView = document.getElementById('rangeAngleView');
 
@@ -1487,6 +1491,8 @@ document.addEventListener('DOMContentLoaded', function() {
 		if (event.keyCode === 13) {
 			onPositionChange(event);
 		}
+		else if(event.keyCode === 72)
+			help();
 		
 		// P
 		if (event.keyCode === 80 || event.keyCode === 32) {
@@ -1496,12 +1502,23 @@ document.addEventListener('DOMContentLoaded', function() {
 				startRotate();
 		}
 		
-		// 9 number
-		if (event.key === 'Tab') {
-			var rc = trickForm.elements["step10"];
-			var i;
+		if (event.key === 'Tab' && event.shiftKey) {
+			let rc = trickForm.elements["step10"];
+			let tmp;
 			event.preventDefault();
-			for (i = 0; i < rc.length; i++) {
+			for (let i = 0; i < rc.length; i++) {
+				if (rc[i].checked) {
+					tmp = (i-1 < 0) ? rc.length-1 : (i-1);
+					rc[tmp].checked = true;
+					break;
+				}
+			}
+			onTrickChange(event);
+		}
+		else if (event.key === 'Tab') { // 9 number
+			let rc = trickForm.elements["step10"];
+			event.preventDefault();
+			for (let i = 0; i < rc.length; i++) {
 				if (rc[i].checked) {
 					rc[(i+1)%rc.length].checked = true;
 					break;
@@ -1509,6 +1526,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			}
 			onTrickChange(event);
 		}
+		
 	});
 	
 	canvas.addEventListener('touchstart',canvasTouchDown);
