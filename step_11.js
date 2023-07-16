@@ -53,10 +53,10 @@ var totalDY = 0;
 var headObj = {totalAngle:0, stepAngle:2, times:0, rotAxis:[0, 0, 1]};
 var earObj  = {totalAngle:0, stepAngle:2, times:0, rotAxis:[0, 0, 1]};
 var neckObj = {totalAngle:0, stepAngle:2, times:0, rotAxis:[0, 0, 1]};
-var bodyObj = {totalAngle:0, stepAngle:2, times:0, rotAxis:[1, 0, 0], totalMove:0, moveStep:0.2};
+var bodyObj = {totalAngle:0, stepAngle:2, times:0, rotAxis:[1, 0, 0], totalScale:1, scaleStep:0.01, scaleAxis:[0,1,0],totalMove:0, moveStep:0.2};
 var tailObj = {totalAngle:0, stepAngle:2, times:0, rotAxis:[1, 0, 0]};
-var legObj  = {totalAngle:0, stepAngle:2, times:0, rotAxis:[1, 0, 0]};
-var feetObj = {totalAngle:0, stepAngle:-2, times:0, rotAxis:[1, 0, 0], totalScale:1, scaleStep:0.05};
+var legObj  = {totalAngle:0, stepAngle:2, times:0, rotAxis:[1, 0, 0], totalMove:0, moveStep:(0.05)};
+var feetObj = {totalAngle:0, stepAngle:-2,times:0, rotAxis:[1, 0, 0], totalMove:0, moveStep:(-0.09), totalScale:1, scaleStep:0.05, scaleAxis:[1,1,0]};
 
 
 function createRenderingContext(inCanvas) {
@@ -511,12 +511,10 @@ function drawScene() {
 		}
 	}
 	
-	//cameraView[0] *= viewDistance;
-	//cameraView[1] *= viewDistance;
 	cameraView[2] *= viewDistance;
 	
 	cameraView[0] = viewDistance*Math.cos((rotateAngle+offsetAngle+totalDX)*Math.PI/180.0);
-	cameraView[1] = viewDistance*Math.sin((rotateAngle+offsetAngle+totalDX)*Math.PI/180.0)+bodyObj.totalMove; // το προσθετουμε για να ακολουθει τον σκυλο οταν περπαταει
+	cameraView[1] = viewDistance*Math.sin((rotateAngle+offsetAngle+totalDX)*Math.PI/180.0) + bodyObj.totalMove; // το προσθετουμε για να ακολουθει τον σκυλο οταν περπαταει
 	cameraView[2] += totalZ + totalDY/5;
 	//console.log("rotateAngle:",rotateAngle);
 	//console.log("offsetAngle:",offsetAngle);
@@ -614,13 +612,7 @@ function drawDog(){
 	gl.bufferData(gl.ARRAY_BUFFER, triangleVertices, gl.STATIC_DRAW);
 	gl.vertexAttribPointer(vertexPositionAttributePointer, vertexBuffer.itemSize, gl.FLOAT, false, 0, 0);
 	
-	// ======================= feet =======================
-
-	glMatrix.mat4.fromScaling(scaleMatrix,[3/2, 5/2, 2/2]);
-	
-	var x = 4.5; // 6/2 + 3/2
-	var y = 5.5; // 6/2 + 5/2
-	var z = 1; // 0 + 2/2
+	// ======================= body =======================
 	
 	//gl.bindBuffer(gl.ARRAY_BUFFER, redColorBuffer);
 	//gl.vertexAttribPointer(vertexColorAttributePointer, redColorBuffer.itemSize, gl.FLOAT, false, 0, 0);
@@ -638,6 +630,43 @@ function drawDog(){
 	gl.vertexAttribPointer(textureCoordinatesAttributePointer, textureBuffer.itemSize, gl.FLOAT, false, 0, 0);
 	// Τέλος 1ης ομάδας εργασιών τετράεδρου (τετράεδρων)
 	
+	var x = 0;
+	var y = 1;
+	var z = 7.5; // 2 + 6 + 2 - 5/2
+	
+	glMatrix.mat4.fromScaling(scaleMatrix,[6/2, 14/2, 5/2]);
+	
+	glMatrix.mat4.fromTranslation(translationMatrix,[-x,-y,z]);
+	glMatrix.mat4.multiply(finalM,translationMatrix,scaleMatrix);
+	
+	if(radioChoise[7].checked){
+		finalM = movePart(finalM,[0, 1, 0],bodyObj,14);
+	}
+	else if(radioChoise[8].checked){
+		let prevStep = bodyObj.scaleStep;
+		finalM = rescalePart(finalM,[0, 1, 7.5],bodyObj,1,[1.5,1])
+		if( (prevStep + bodyObj.scaleStep) == 0){
+			//console.log("prevStep, bodyObj.scaleStep", prevStep, bodyObj.scaleStep);
+			legObj.moveStep *= -1;
+			feetObj.moveStep *= -1
+		}
+	}
+	else if(radioChoise[5].checked){
+		finalM = rotatePart(finalM,[0,-8,7.5],feetObj,10,[90,0]);
+	}
+	
+	gl.uniformMatrix4fv(modelUniformPointer, false, finalM); 
+	gl.drawArrays(gl.TRIANGLES, 0, vertexBuffer.itemCount);
+	
+	// ======================= feet =======================
+
+	glMatrix.mat4.fromScaling(scaleMatrix,[3/2, 5/2, 2/2]);
+	
+	x = 4.5; // 6/2 + 3/2
+	y = 5.5; // 6/2 + 5/2
+	z = 1; // 0 + 2/2
+	
+	
 	glMatrix.mat4.fromTranslation(translationMatrix,[-x,-y,z]);
 	glMatrix.mat4.multiply(finalM,translationMatrix,scaleMatrix);
 	
@@ -646,6 +675,9 @@ function drawDog(){
 	}
 	else if(radioChoise[6].checked || radioChoise[7].checked){
 		finalM = rotatePart(finalM,[-4.5,-6.5,8],feetObj,4,[90,-90]);
+	}
+	else if(radioChoise[8].checked){
+		finalM = dachshund(finalM,feetObj,5)
 	}
 	
 	if(radioChoise[7].checked){
@@ -668,6 +700,12 @@ function drawDog(){
 	else if(radioChoise[6].checked || radioChoise[7].checked){
 		finalM = rotatePart(finalM,[4.5,4.5,8],feetObj,4,[90,-90]);
 	}
+	else if(radioChoise[8].checked){
+		finalM = dachshund(finalM,legObj,8)
+	}
+	else if(radioChoise[5].checked){
+		finalM = rotatePart(finalM,[0,-8,7.5],feetObj,10,[90,0]);
+	}
 	
 	if(radioChoise[7].checked){
 		finalM = movePart(finalM,[0, 1, 0],bodyObj,14);
@@ -684,6 +722,9 @@ function drawDog(){
 	}
 	else if(radioChoise[6].checked || radioChoise[7].checked){
 		finalM = rotatePart(finalM,[4.5,-6.5,8],legObj,4,[90,-90]);
+	}
+	else if(radioChoise[8].checked){
+		finalM = dachshund(finalM,feetObj,5)
 	}
 	
 	
@@ -706,6 +747,12 @@ function drawDog(){
 	}
 	else if(radioChoise[6].checked || radioChoise[7].checked){
 		finalM = rotatePart(finalM,[-4.5,4.5,8],legObj,4,[90,-90]);
+	}
+	else if(radioChoise[8].checked){
+		finalM = dachshund(finalM,legObj,8)
+	}
+	else if(radioChoise[5].checked){
+		finalM = rotatePart(finalM,[0,-8,7.5],feetObj,10,[90,0]);
 	}
 	
 	if(radioChoise[7].checked){
@@ -735,9 +782,15 @@ function drawDog(){
 	else if(radioChoise[6].checked || radioChoise[7].checked){
 		finalM = rotatePart(finalM,[4.5,4.5,8],feetObj,4,[90,-90]);
 	}
+	else if(radioChoise[8].checked){
+		finalM = dachshund(finalM,legObj,8)
+	}
 	
 	if(radioChoise[7].checked){
 		finalM = movePart(finalM,[0, 1, 0],bodyObj,14);
+	}
+	else if(radioChoise[5].checked){
+		finalM = rotatePart(finalM,[0,-8,7.5],feetObj,10,[90,0]);
 	}
 	
 	gl.uniformMatrix4fv(modelUniformPointer, false, finalM); 
@@ -752,6 +805,12 @@ function drawDog(){
 	}
 	else if(radioChoise[6].checked || radioChoise[7].checked){
 		finalM = rotatePart(finalM,[-4.5,4.5,8],legObj,4,[90,-90]);
+	}
+	else if(radioChoise[8].checked){
+		finalM = dachshund(finalM,legObj,8)
+	}
+	else if(radioChoise[5].checked){
+		finalM = rotatePart(finalM,[0,-8,7.5],feetObj,10,[90,0]);
 	}
 	
 	if(radioChoise[7].checked){
@@ -771,6 +830,9 @@ function drawDog(){
 	if(radioChoise[6].checked || radioChoise[7].checked){
 		finalM = rotatePart(finalM,[4.5,-6.5,8],legObj,4,[90,-90]);
 	}
+	else if(radioChoise[8].checked){
+		finalM = dachshund(finalM,feetObj,5)
+	}
 	
 	if(radioChoise[7].checked){
 		finalM = movePart(finalM,[0, 1, 0],bodyObj,14);
@@ -785,6 +847,9 @@ function drawDog(){
 	if(radioChoise[6].checked || radioChoise[7].checked){
 		finalM = rotatePart(finalM,[-4.5,-6.5,8],feetObj,4,[90,-90]);
 	}
+	else if(radioChoise[8].checked){
+		finalM = dachshund(finalM,feetObj,5)
+	}
 	
 	if(radioChoise[7].checked){
 		finalM = movePart(finalM,[0, 1, 0],bodyObj,14);
@@ -793,24 +858,6 @@ function drawDog(){
 	gl.uniformMatrix4fv(modelUniformPointer, false, finalM); 
 	gl.drawArrays(gl.TRIANGLES, 0, vertexBuffer.itemCount);
 	
-	
-	// ======================= body =======================
-	
-	x = 0;
-	y = 1;
-	z = 7.5; // 2 + 6 + 2 - 5/2
-	
-	glMatrix.mat4.fromScaling(scaleMatrix,[6/2, 14/2, 5/2]);
-	
-	glMatrix.mat4.fromTranslation(translationMatrix,[-x,-y,z]);
-	glMatrix.mat4.multiply(finalM,translationMatrix,scaleMatrix);
-	
-	if(radioChoise[7].checked){
-		finalM = movePart(finalM,[0, 1, 0],bodyObj,14);
-	}
-	
-	gl.uniformMatrix4fv(modelUniformPointer, false, finalM); 
-	gl.drawArrays(gl.TRIANGLES, 0, vertexBuffer.itemCount);
 	
 	// ======================= tail =======================
 
@@ -828,6 +875,12 @@ function drawDog(){
 	if(radioChoise[1].checked || radioChoise[9].checked){
 		//finalM = moveTail(finalM);
 		finalM = rotatePart(finalM,[0,-8,10],tailObj,1,[180,0]);
+	}
+	else if(radioChoise[8].checked){
+		finalM = dachshund(finalM,feetObj,5)
+	}
+	else if(radioChoise[5].checked){
+		finalM = rotatePart(finalM,[0,-8,7.5],feetObj,10,[90,0]);
 	}
 	
 	if(radioChoise[7].checked){
@@ -855,6 +908,12 @@ function drawDog(){
 	else if(radioChoise[9].checked){
 		//finalM = moveHeadFullRotate(finalM,[0,4,11.5]);
 		finalM = rotatePart(finalM,[0,4,11.5],headObj,4,[headObj.totalAngle+1,0]);
+	}
+	else if(radioChoise[8].checked){
+		finalM = dachshund(finalM,legObj,8)
+	}
+	else if(radioChoise[5].checked){
+		finalM = rotatePart(finalM,[0,-8,7.5],feetObj,10,[90,0]);
 	}
 	
 	if(radioChoise[7].checked){
@@ -892,9 +951,15 @@ function drawDog(){
 		//finalM = moveHeadFullRotate(finalM,[0,4,15]);
 		finalM = rotatePart(finalM,[0,4,15],headObj,4,[headObj.totalAngle+1,0]);
 	}
+	else if(radioChoise[8].checked){
+		finalM = dachshund(finalM,legObj,8)
+	}
 	
 	if(radioChoise[7].checked){
 		finalM = movePart(finalM,[0, 1, 0],bodyObj,14);
+	}
+	else if(radioChoise[5].checked){
+		finalM = rotatePart(finalM,[0,-8,7.5],feetObj,10,[90,0]);
 	}
 	
 	gl.uniformMatrix4fv(modelUniformPointer, false, finalM); 
@@ -927,6 +992,12 @@ function drawDog(){
 		//finalM = moveHeadFullRotate(finalM,[0,4,14.5]);
 		finalM = rotatePart(finalM,[0,4,14.5],headObj,4,[headObj.totalAngle+1,0]);
 	}
+	else if(radioChoise[8].checked){
+		finalM = dachshund(finalM,legObj,8)
+	}
+	else if(radioChoise[5].checked){
+		finalM = rotatePart(finalM,[0,-8,7.5],feetObj,10,[90,0]);
+	}
 	
 	if(radioChoise[7].checked){
 		finalM = movePart(finalM,[0, 1, 0],bodyObj,14);
@@ -944,7 +1015,13 @@ function drawDog(){
 	}
 	else if(radioChoise[9].checked){
 		//finalM = moveHeadFullRotate(finalM,[0,4,14.5]);
-		finalM = rotatePart(finalM,[0,4,14.5],headObj,4,[headObj.totalAngle+1,0]);
+		finalM = rotatePart(finalM,[0,4,14.5],headObj,4,[headObj.totalAngle+headObj.stepAngle,0]);
+	}
+	else if(radioChoise[8].checked){
+		finalM = dachshund(finalM,legObj,8)
+	}
+	else if(radioChoise[5].checked){
+		finalM = rotatePart(finalM,[0,-8,7.5],feetObj,10,[90,0]);
 	}
 	
 	if(radioChoise[7].checked){
@@ -1008,7 +1085,7 @@ var scrollActive = false;
 
 
 function addTo(total, step, topLim, botLim){
-	if(topLim < total || botLim > total){
+	if(topLim < total+step || botLim > total+step){
 		step *= -1;
 		//console.log("topLim < total || botLim > total");
 		//console.log(topLim," < ",total," || ",botLim," > ",total);
@@ -1069,18 +1146,29 @@ function rescalePart(originalPart,center,obj,mod,limits){
 	
 	if(requestID != 0 || scrollActive){
 		[tmp1,tmp2] = addTo(tmp1,tmp2,max,min);
-		
-		//console.log("x,y -> ",x,",",y);
-		//console.log("totalScale:",totalScale);
-		//console.log("scaleStep:",scaleStep);
 	}
+	
+	var scaleAxis = [0,0,0];
+	
+	for(let i = 0; i < 3; i++)
+		scaleAxis[i] = obj.scaleAxis[i] ? tmp1 : 1;
+	//console.log("scaleAxis",scaleAxis);
+	//console.log("tmp1",tmp1);
+	//console.log("tmp2",tmp2);
+	
+	//var sX = obj.scaleAxis[0] ? tmp1 : 1;
+	//var sY = obj.scaleAxis[1] ? tmp1 : 1;
+	//var sZ = obj.scaleAxis[2] ? tmp1 : 1;
+	
+	
 	
 	var scale = glMatrix.mat4.create();
 	var translation = glMatrix.mat4.create();
 
 	glMatrix.mat4.fromTranslation(translation, [-x, -y, -z]);
 	glMatrix.mat4.multiply(originalPart, translation, originalPart);
-	glMatrix.mat4.fromScaling(scale,[tmp1, tmp1, 1]);
+	//glMatrix.mat4.fromScaling(scale,[sX,sY,sZ]);
+	glMatrix.mat4.fromScaling(scale,scaleAxis);
 	glMatrix.mat4.multiply(originalPart, scale, originalPart);
 	glMatrix.mat4.fromTranslation(translation, [x, y, z]);
 	glMatrix.mat4.multiply(originalPart, translation, originalPart);
@@ -1090,7 +1178,6 @@ function rescalePart(originalPart,center,obj,mod,limits){
 		obj.totalScale = tmp1;
 		obj.scaleStep = tmp2;
 	}
-	
 	
 	return originalPart;
 }
@@ -1116,6 +1203,28 @@ function movePart(originalPart,direction,obj,mod){
 		obj.totalMove = tmp1;
 	}
 	
+	
+	return originalPart;
+}
+
+function dachshund(originalPart,obj,mod){ // rotate
+	
+	var tmp1 = obj.totalMove;
+	
+	if(requestID != 0 || scrollActive){
+		tmp1 += obj.moveStep;
+		//console.log("???",obj.moveStep);
+	}
+	
+	var translation = glMatrix.mat4.create();
+
+	glMatrix.mat4.fromTranslation(translation, [0, tmp1, 0]);
+	glMatrix.mat4.multiply(originalPart, translation, originalPart);
+	
+	obj.times += 1;
+	if(obj.times%mod == 0){
+		obj.totalMove = tmp1;
+	}
 	
 	return originalPart;
 }
@@ -1167,17 +1276,25 @@ function onTrickChange(event){
 	// leg
 	legObj.totalAngle = 0;
 	legObj.times = 0;
+	legObj.stepAngle = 2;
+	legObj.totalMove = 0;
+	legObj.moveStep = 0.05;
 	
 	// feet
 	feetObj.totalAngle = 0;
 	feetObj.totalScale = 1.0;
 	feetObj.times = 0;
+	feetObj.stepAngle = -2;
+	feetObj.totalMove = 0;
+	feetObj.moveStep = -0.09;
 	
 	// body
 	bodyObj.totalMove = 0;
 	bodyObj.times = 0;
+	bodyObj.totalScale = 1.0;
+	bodyObj.scaleStep = 0.01;
 	
-	
+	console.log("===");
 	if(requestID == 0)
 		drawScene();
 }
@@ -1362,6 +1479,37 @@ document.addEventListener('DOMContentLoaded', function() {
 	const trickForm = document.getElementById('trick');
 	
 	trickForm.addEventListener('change', onTrickChange);
+	
+	const inputElement = document.getElementById('myInput');
+
+	window.addEventListener('keydown', function(event) {
+		// Enter
+		if (event.keyCode === 13) {
+			onPositionChange(event);
+		}
+		
+		// P
+		if (event.keyCode === 80 || event.keyCode === 32) {
+			if (requestID)
+				stopRotate();
+			else
+				startRotate();
+		}
+		
+		// 9 number
+		if (event.key === 'Tab') {
+			var rc = trickForm.elements["step10"];
+			var i;
+			event.preventDefault();
+			for (i = 0; i < rc.length; i++) {
+				if (rc[i].checked) {
+					rc[(i+1)%rc.length].checked = true;
+					break;
+				}
+			}
+			onTrickChange(event);
+		}
+	});
 	
 	canvas.addEventListener('touchstart',canvasTouchDown);
 	window.addEventListener('touchcancel',canvasTouchUp);
