@@ -1395,13 +1395,13 @@ var touchDown = false;
 
 function canvasTouchDown(event){
 	touchDown = true;
-	/*if (event.touches.length === 2) {
+	if (event.touches.length === 2) {
 		touchDown = false;
-	}*/
-	
-	bMouseX = event.touches[0].clientX;
-	bMouseY = event.touches[0].clientY;
-	
+	}
+	else{
+		bMouseX = event.touches[0].clientX;
+		bMouseY = event.touches[0].clientY;
+	}
 	dX = 0;
 	dY = 0;
 	//console.log("touch down:",touchDown);
@@ -1414,22 +1414,15 @@ function canvasTouchDown(event){
 }
 
 function touchMove(event){
-	/*if (event.touches.length === 2) {
+	if (event.touches.length === 2) {
 		scrollActive = true;
-		//if(requestID == 0)
-		//	drawScene();
-		//console.log("weel");
-		
-		var radioChoise = document.getElementById("trick").elements["step10"];
-		
 		
 		if(requestID == 0)
 			drawScene();
 		// Perform your desired action with dx and dy
-		console.log('dx:', dX, 'dy:', dY);
+		//console.log('dx:', dX, 'dy:', dY);
 	}
-	else */
-	if(touchDown){
+	else if(touchDown){
 		aMouseX = event.touches[0].clientX;
 		aMouseY = event.touches[0].clientY;
 	
