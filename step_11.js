@@ -1395,14 +1395,19 @@ var touchDown = false;
 
 function canvasTouchDown(event){
 	touchDown = true;
-	
-	bMouseX = event.touches[0].clientX;
-	bMouseY = event.touches[0].clientY;
+	if (event.touches.length === 2) {
+		bMouseX = Math.abs(event.touches[0].clientX - event.touches[1].clientX);
+		bMouseY = Math.abs(event.touches[0].clientY - event.touches[1].clientY);
+	}
+	else{
+		bMouseX = event.touches[0].clientX;
+		bMouseY = event.touches[0].clientY;
+	}
 	dX = 0;
 	dY = 0;
-	console.log("touch down:",touchDown);
-	console.log("bMouseX:",bMouseX);
-	console.log("bMouseY:",bMouseY);
+	//console.log("touch down:",touchDown);
+	//console.log("bMouseX:",bMouseX);
+	//console.log("bMouseY:",bMouseY);
 	if (requestID != 0){
 		beforeRequestID = requestID;
 		stopRotate();
@@ -1410,7 +1415,26 @@ function canvasTouchDown(event){
 }
 
 function touchMove(event){
-	if(touchDown){
+	if (event.touches.length === 2) {
+		aMouseX = Math.abs(event.touches[0].clientX - event.touches[1].clientX);
+		aMouseY = Math.abs(event.touches[0].clientY - event.touches[1].clientY);
+
+		dX = aMouseX - bMouseX;
+		dY = aMouseY - bMouseY;
+		
+		totalDX += dX;
+		totalDY += dY;
+		
+		bMouseX = aMouseX;
+		bMouseY = aMouseY;
+		
+		if(requestID == 0)
+			drawScene();
+
+		// Perform your desired action with dx and dy
+		console.log('dx:', dX, 'dy:', dY);
+	}
+	else if(touchDown){
 		aMouseX = event.touches[0].clientX;
 		aMouseY = event.touches[0].clientY;
 	
@@ -1446,7 +1470,7 @@ function canvasTouchUp(event){
 	dY = 0;
 	//totalDX = 0;
 	//totalDY = 0;
-	console.log("touch down:",touchDown);
+	//console.log("touch down:",touchDown);
 	if (beforeRequestID != 0){
 		beforeRequestID = 0;
 		startRotate();
@@ -1455,7 +1479,7 @@ function canvasTouchUp(event){
 
 
 function help(){
-	alert("p or space: pause/play\n"+"enter:submit\n"+"tab:next animation\n"+"shift + tab:prev animation\n"+"Παντελής Πρώιος 18390023");
+	alert("'P' or space: pause/play\n"+"'ENTER': submit\n"+"'Scroll': moves animation"+"'TAB': next animation\n"+"'SHIFT' + 'TAB': prev animation\n"+"Παντελής Πρώιος 18390023");
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -1528,6 +1552,31 @@ document.addEventListener('DOMContentLoaded', function() {
 		}
 		
 	});
+	
+	canvas.onwheel = function(event){
+		event.preventDefault();
+	};
+
+	canvas.onmousewheel = function(event){
+		event.preventDefault();
+	};
+	
+	canvas.ontouchstart = function(event){
+		event.preventDefault();
+		console.log("okay!");
+	};
+	
+	
+	/*
+    const body = document.body;
+
+    canvas.addEventListener('mouseenter', function (event) {
+		body.style.overflow = 'hidden' !important;
+    });
+    canvas.addEventListener('mouseleave', function (event) {
+		body.style.overflow = 'auto';
+    });
+	*/
 	
 	canvas.addEventListener('touchstart',canvasTouchDown);
 	window.addEventListener('touchcancel',canvasTouchUp);
