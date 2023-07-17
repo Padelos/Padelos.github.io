@@ -1294,7 +1294,7 @@ function onTrickChange(event){
 	bodyObj.totalScale = 1.0;
 	bodyObj.scaleStep = 0.01;
 	
-	console.log("===");
+	//console.log("===");
 	if(requestID == 0)
 		drawScene();
 }
@@ -1396,8 +1396,7 @@ var touchDown = false;
 function canvasTouchDown(event){
 	touchDown = true;
 	if (event.touches.length === 2) {
-		bMouseX = Math.abs(event.touches[0].clientX - event.touches[1].clientX);
-		bMouseY = Math.abs(event.touches[0].clientY - event.touches[1].clientY);
+		touchDown = false;
 	}
 	else{
 		bMouseX = event.touches[0].clientX;
@@ -1416,21 +1415,16 @@ function canvasTouchDown(event){
 
 function touchMove(event){
 	if (event.touches.length === 2) {
-		aMouseX = Math.abs(event.touches[0].clientX - event.touches[1].clientX);
-		aMouseY = Math.abs(event.touches[0].clientY - event.touches[1].clientY);
-
-		dX = aMouseX - bMouseX;
-		dY = aMouseY - bMouseY;
+		scrollActive = true;
+		//if(requestID == 0)
+		//	drawScene();
+		//console.log("weel");
 		
-		totalDX += dX;
-		totalDY += dY;
+		var radioChoise = document.getElementById("trick").elements["step10"];
 		
-		bMouseX = aMouseX;
-		bMouseY = aMouseY;
 		
 		if(requestID == 0)
 			drawScene();
-
 		// Perform your desired action with dx and dy
 		console.log('dx:', dX, 'dy:', dY);
 	}
@@ -1441,8 +1435,8 @@ function touchMove(event){
 		
 		dX = aMouseX - bMouseX;
 		dY = aMouseY - bMouseY;
-		console.log("dx:",dX);
-		console.log("dy:",dY);
+		//console.log("dx:",dX);
+		//console.log("dy:",dY);
 		
 		totalDX += dX;
 		totalDY += dY;
@@ -1479,7 +1473,7 @@ function canvasTouchUp(event){
 
 
 function help(){
-	alert("'P' or space: pause/play\n"+"'ENTER': submit\n"+"'Scroll': moves animation"+"'TAB': next animation\n"+"'SHIFT' + 'TAB': prev animation\n"+"Παντελής Πρώιος 18390023");
+	alert("'P' or space: pause/play\n"+"'ENTER': submit\n"+"'Scroll': moves animation\n"+"'TAB': next animation\n"+"'SHIFT' + 'TAB': prev animation\n"+"Παντελής Πρώιος 18390023");
 }
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -1563,7 +1557,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	
 	canvas.ontouchstart = function(event){
 		event.preventDefault();
-		console.log("okay!");
+		//console.log("okay!");
 	};
 	
 	
