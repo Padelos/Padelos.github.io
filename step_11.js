@@ -1395,7 +1395,7 @@ var touchDown = false;
 
 function canvasTouchDown(event){
 	touchDown = true;
-	if (event.touches.length === 2) {
+	if (event.touches.length === 3) {
 		touchDown = false;
 	}
 	else{
@@ -1414,7 +1414,7 @@ function canvasTouchDown(event){
 }
 
 function touchMove(event){
-	if (event.touches.length === 2) {
+	if (event.touches.length === 3) {
 		scrollActive = true;
 		
 		if(requestID == 0)
