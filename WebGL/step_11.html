@@ -1,0 +1,124 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="webgl-debug.js"></script> 
+<script src="gl-matrix-min.js"></script>
+<style>
+    .circle-info {
+      color: #b22a2a;
+      transition: transform 0.2s;
+    }
+
+    .circle-info:hover {
+      transform: scale(1.2);
+    }
+	
+	.borderless-button {
+      border: none;
+      outline: none;
+	  background-color: transparent;
+    }
+
+</style>
+
+<script id="vShader" type="x-shader/x-vertex">
+
+	attribute vec4 aVertexPosition;
+	attribute vec4 aVertexColor;
+	
+	uniform mat4 uModelTransform; 
+	uniform mat4 uPerspectiveViewTransform; 
+	
+	//varying vec4 vColor;
+	
+	attribute vec2 aTextureCoordinates;
+	varying vec2 vTextureCoordinates;
+	
+	void main() {
+		gl_Position = uPerspectiveViewTransform * uModelTransform * aVertexPosition;
+		//vColor = aVertexColor;  
+		vTextureCoordinates = aTextureCoordinates;
+	} 
+</script>
+<script id="fShader" type="x-shader/x-fragment">
+
+	precision mediump float; 
+	//varying vec4 vColor; 
+	
+	varying vec2 vTextureCoordinates;
+	uniform sampler2D uSampler;
+	
+	void main() {
+		//gl_FragColor = vColor;
+		gl_FragColor = texture2D(uSampler, vTextureCoordinates);
+ 	}
+</script>
+ 
+<script src="step_11.js"></script>
+
+ 
+</head>
+
+<body onload="main()">
+<button value="Stop"  onclick="help()" class ="borderless-button"><i class="fa-solid fa-circle-info fa-2xl circle-info" style="color: #b22a2a;"></i></button>
+<div style = "text-align:center;">
+	<canvas id="sceneCanvas" width="750" height="750" style="border:1px solid" ></canvas>
+	
+	<br>View Angle (degrees):<input type="text" id="viewAngle" value="90" autocomplete="off" oninput="this.value = this.value.replace(/\D+/g, '')">-180<input type="range" id="rangeAngleView" min="-180" max="180" value="90.0" step="1">180
+	
+	<br>View Distance:<input type="text" id="viewDistance" value="35" autocomplete="off" oninput="this.value = this.value.replace(/\D+/g, '')">-50<input type="range" id="rangeDistanceView" min="-50" max="50" value="35.0" step="1">50
+	<form id="cameraViewForm">
+	  <!--<p>Please select your favorite Web language:</p>-->
+		<input type="radio" id="LFT" name="step3" value="LFT" checked>
+		<label for="LFT">Left-Front-Top</label>
+		<input type="radio" id="LFB" name="step3" value="LFB">
+		<label for="LFB">Left-Front-Bottom</label>
+		<input type="radio" id="LBT" name="step3" value="LBT">
+		<label for="LBT">Left-Back-Top</label>
+		<input type="radio" id="LBB" name="step3" value="LBB">
+		<label for="LBB">Left-Back-Bottom</label>
+		<input type="radio" id="RFT" name="step3" value="RFT">
+		<label for="RFT">Right-Front-Top</label>
+		<input type="radio" id="RFB" name="step3" value="RFB">
+		<label for="RFB">Right-Front-Bottom</label>
+		<input type="radio" id="RBT" name="step3" value="RBT">
+		<label for="RBT">Right-Back-Top</label><br>
+		<input type="radio" id="RBB" name="step3" value="RBB">
+		<label for="RBB">Right-Back-Bottom</label>
+	</form>
+	<!--<input type="submit" value="Submit" onclick="onPositionChange(event)">-->
+	<br>
+	<button value="Start" onclick="startRotate()"><i class="fa-solid fa-play fa-2xl" style="color: #3cd21e;"></i></button>
+	<button value="Stop"  onclick="stopRotate()"><i class="fa-solid fa-pause fa-2xl" style="color: #e91616;"></i></button>
+	
+	<form id="trick">
+		<input type="radio" id="None" name="step10" value="None" checked>
+		<label for="None">None</label>
+		<input type="radio" id="Tail" name="step10" value="Tail">
+		<label for="Tail">Tail</label>
+		<input type="radio" id="Head" name="step10" value="Head">
+		<label for="Head">Head</label>
+		<input type="radio" id="Right-Feet" name="step10" value="Right-Feet">
+		<label for="Right-Feet">Right-Feet</label>
+		<input type="radio" id="Left-Feet" name="step10" value="Left-Feet">
+		<label for="Left-Feet">Left-Feet</label>
+		<input type="radio" id="Sit" name="step10" value="Sit">
+		<label for="Sit">Sit</label>
+		<input type="radio" id="Static-Walk" name="step10" value="Static-Walk">
+		<label for="Static-Walk">Static-Walk</label>
+		<input type="radio" id="Regular-Walk" name="step10" value="Regular-Walk">
+		<label for="Regular-Walk">Regular-Walk</label>
+		<input type="radio" id="Dachshund" name="step10" value="Dachshund">
+		<label for="Dachshund">Dachshund</label>
+		<input type="radio" id="Breakdown" name="step10" value="Breakdown">
+		<label for="Breakdown">Breakdown</label>
+	</form>
+	<input type="submit" value="Submit" onclick="onPositionChange(event)">
+	<br>
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,63 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Padelis Proios</title>
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.1.1/model-viewer.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sofia">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
+</head>
+<body>
+
+    <header>
+        <h1>Padelis Proios</h1>
+        <p>Informatics and Computer Engineering Student</p>
+        <p>Location: Attica, Athens</p>
+    </header>
+
+    <model-viewer id="change-this" src="free_1975_porsche_911_930_turbo/scene.gltf" auto-rotate></model-viewer>
+
+    <div class="pdf-viewer" id="pdfViewer" onclick="closePDF(this)">
+        <iframe class="pdf-display" id="pdfDisplay" src="pdfs/ΔΔΜΚ.pdf" frameborder="0"></iframe>
+    </div>
+
+    <div class="pdf-gallery">
+        <div class="pdf-item change-height" data-pdf="pdfs/ΔΓ.pdf" onclick="openPDF(this)"><h3>CV pdf</h3></div>
+        <a class="pdf-item change-height" href="WebGL/step_11.html"><h3 class="fire">WebGL project</h3></a>
+    </div>
+
+    <div class="pdf-gallery">
+        <div class="pdf-item" data-pdf="pdfs/AI.pdf" onclick="openPDF(this)"><p>A.I.</p></div>
+        <div class="pdf-item" data-pdf="pdfs/Image_processing_1.pdf" onclick="openPDF(this)"><p>Image Processing 1</p></div>
+        <div class="pdf-item" data-pdf="pdfs/Image_processing_2.pdf" onclick="openPDF(this)"><p>Image Processing 2</p></div>
+        <div class="pdf-item" data-pdf="pdfs/Image_processing_3.pdf" onclick="openPDF(this)"><p>Image Processing 3</p></div>
+        <div class="pdf-item" data-pdf="pdfs/Image_processing_4.pdf" onclick="openPDF(this)"><p>Image Processing 4</p></div>
+        <div class="pdf-item" data-pdf="pdfs/Big_Data.pdf" onclick="openPDF(this)"><p>Big Data</p></div>
+        <div class="pdf-item" data-pdf="pdfs/Distributed_Systems_1.pdf" onclick="openPDF(this)"><p>Distributed Systems 1</p></div>
+        <div class="pdf-item" data-pdf="pdfs/Distributed_Systems_2.pdf" onclick="openPDF(this)"><p>Distributed Systems 2</p></div>
+        <div class="pdf-item" data-pdf="pdfs/Data_Mining_1.pdf" onclick="openPDF(this)"><p>Data Mining 1</p></div>
+        <div class="pdf-item" data-pdf="pdfs/Data_Mining_2.pdf" onclick="openPDF(this)"><p>Data Mining 2</p></div>
+        <div class="pdf-item" data-pdf="pdfs/Data_Mining_3.pdf" onclick="openPDF(this)"><p>Data Mining 3</p></div>
+        <div class="pdf-item" data-pdf="pdfs/Machine_learning_1.pdf" onclick="openPDF(this)"><p>Machine learning 1</p></div>
+        <div class="pdf-item" data-pdf="pdfs/Machine_learning_2.pdf" onclick="openPDF(this)"><p>Machine learning 2</p></div>
+        <div class="pdf-item" data-pdf="pdfs/Machine_learning_3.pdf" onclick="openPDF(this)"><p>Machine learning 3</p></div>
+        <div class="pdf-item" data-pdf="pdfs/MIPS.pdf" onclick="openPDF(this)"><p>MIPS</p></div>
+        <div class="pdf-item" data-pdf="pdfs/Design_and_Development_Systems.pdf" onclick="openPDF(this)"><p>Design and Development Systems</p></div>
+        <div class="pdf-item" data-pdf="pdfs/Information_retrival.pdf" onclick="openPDF(this)"><p>Information Retrival</p></div>
+        <div class="pdf-item" data-pdf="pdfs/Compiler.pdf" onclick="openPDF(this)"><p>Compiler</p></div>
+        <div class="pdf-item" data-pdf="pdfs/Software_Engineer.pdf" onclick="openPDF(this)"><p>Software Engineer</p></div>
+
+        <div class="pdf-item" data-pdf="pdfs/TCP-analysis.pdf" onclick="openPDF(this)"><p>TCP Analysis</p></div>
+        <div class="pdf-item" data-pdf="pdfs/parking_manager.pdf" onclick="openPDF(this)"><p>Parking Manager</p></div>
+        <div class="pdf-item" data-pdf="pdfs/Firmware.pdf" onclick="openPDF(this)"><p>Firmware</p></div>
+        <div class="pdf-item" data-pdf="pdfs/Parallel_Systems_1.pdf" onclick="openPDF(this)"><p>Parallel Systems 1</p></div>
+        <div class="pdf-item" data-pdf="pdfs/Parallel_Systems_2.pdf" onclick="openPDF(this)"><p>Parallel Systems 2</p></div>
+        <div class="pdf-item" data-pdf="pdfs/Parallel_Systems_3.pdf" onclick="openPDF(this)"><p>Parallel Systems 3</p></div>
+        <div class="pdf-item" data-pdf="pdfs/ANALYSIS_AND_DESIGN_OF_INFORMATION_SYSTEMS.pdf" onclick="openPDF(this)"><p>Analysis and Design of Information Systems</p></div>
+        <div class="pdf-item" data-pdf="pdfs/Java_App_Development_1.pdf" onclick="openPDF(this)"><p>Java App Development 1</p></div>
+        <div class="pdf-item" data-pdf="pdfs/Java_App_Development_2.pdf" onclick="openPDF(this)"><p>Java App Development 2</p></div>
+    </div>
+    
+</body>
+</html>
