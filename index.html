@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -5,76 +6,245 @@
     <meta name="google-site-verification" content="S7JgajVB269hIA-9x-ouxsQ2U3f329nudYGF1vxoOzA" />
     <title>Padelis Proios</title>
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.1.1/model-viewer.min.js"></script>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sofia">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='12' fill='%230a0a0a'/><text x='50' y='68' font-family='monospace' font-size='48' font-weight='900' fill='%2300e676' text-anchor='middle'>PP</text></svg>">
 </head>
 <body>
 
-    <header>
-        <h1>Padelis Proios</h1>
-        <p>Informatics and Computer Engineering Student</p>
-        <p>Location: Attica, Athens</p>
-    </header>
+    <div class="scanlines" id="scanlines"></div>
 
-    <!--<audio id="backgroundMusic">
-        <source src="Kotera.mp3" type="audio/mpeg">
-        Your browser does not support the audio element.
-    </audio>
-    <button id="playButton">Play Music</button>
-    <script src="audio_script.js"></script>-->
-
-    <model-viewer 
-        id="change-this" 
-        src="free_1975_porsche_911_930_turbo/scene.gltf" 
+    <!-- FIXED BACKGROUND CAR -->
+    <model-viewer
+        src="free_1975_porsche_911_930_turbo/scene.gltf"
         auto-rotate
         rotation-per-second="-20deg"
         loading="eager"
         reveal="auto"
     ></model-viewer>
 
-    <div class="pdf-viewer" id="pdfViewer" onclick="closePDF(this)">
-        <iframe class="pdf-display" id="pdfDisplay" src="pdfs/CV.pdf" frameborder="0"></iframe>
+    <!-- HERO -->
+    <section class="hero" id="hero">
+        <div class="hero-overlay"></div>
+
+        <div class="hero-content">
+            <div class="hero-tag">// SYSTEM ONLINE</div>
+            <h1 class="hero-name">PADELIS<br><span>PROIOS</span></h1>
+            <p class="hero-sub">Informatics &amp; Computer Engineering Graduate</p>
+            <p class="hero-location">
+                <span class="dot"></span> Attica, Athens
+            </p>
+           <div class="hero-links">
+                <a href="https://www.github.com/Padelos" target="_blank" class="icon-link" title="GitHub">
+                    <svg viewBox="0 0 24 24" width="26" height="26" fill="white"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.009-.868-.013-1.703-2.782.604-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.463-1.11-1.463-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0 1 12 6.836a9.59 9.59 0 0 1 2.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.203 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+                </a>
+                <!-- Not yet email and linkedin -->
+                <a href="https://www.linkedin.com/" target="_blank" class="icon-link" title="LinkedIn">
+                    <svg viewBox="0 0 24 24" width="26" height="26" fill="white"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                </a>
+                <a href="mailto:" class="icon-link" title="Email">
+                    <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="M2 7l10 7 10-7"/></svg>
+                </a>
+            </div>
+            <a href="#about" class="scroll-cta">SCROLL DOWN <span>↓</span></a>
+        </div>
+    </section>
+
+    <!-- NAV -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-brand">PP</div>
+        <ul class="nav-links">
+            <li><a href="#about">ABOUT</a></li>
+            <li><a href="#skills">SKILLS</a></li>
+            <li><a href="#projects">PROJECTS</a></li>
+        </ul>
+    </nav>
+
+    <!-- ABOUT -->
+    <section class="section" id="about">
+        <div class="section-inner">
+            <div class="section-label">// 01</div>
+            <h2 class="section-title">ABOUT ME</h2>
+            <div class="about-grid">
+                <div class="about-card neon-card">
+                    <div class="card-corner tl"></div>
+                    <div class="card-corner tr"></div>
+                    <div class="card-corner bl"></div>
+                    <div class="card-corner br"></div>
+                    <p>Informatics &amp; Computer Engineering graduate, currently working as a QA Automation Engineer. I write test cases, build automation scripts and make sure software ships without breaking things.</p>
+                    <p>Outside of work I enjoy mobile software and have a soft spot for fast cars. Always drawn to things that are well built and fun to use.</p>
+                </div>
+                <div class="about-stats">
+                    <div class="stat-item">
+                        <span class="stat-num">8</span>
+                        <span class="stat-label">Projects</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-num">10+</span>
+                        <span class="stat-label">Courses</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-num">∞</span>
+                        <span class="stat-label">Curiosity</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section class="section section-dark" id="skills">
+        <div class="section-inner">
+            <div class="section-label">// 02</div>
+            <h2 class="section-title">SKILLS</h2>
+            <div class="skills-grid">
+                <div class="skill-group neon-card">
+                    <div class="card-corner tl"></div><div class="card-corner tr"></div>
+                    <div class="card-corner bl"></div><div class="card-corner br"></div>
+                    <h3>Languages</h3>
+                    <div class="skill-tags">
+                        <span>Java</span>
+                        <span>Python</span>
+                        <span>JavaScript</span>
+                        <span>Bash</span>
+                        <span>C/C++</span>
+                    </div>
+                </div>
+                <div class="skill-group neon-card">
+                    <div class="card-corner tl"></div><div class="card-corner tr"></div>
+                    <div class="card-corner bl"></div><div class="card-corner br"></div>
+                    <h3>QA & Testing</h3>
+                    <div class="skill-tags">
+                        <span>Playwright</span><span>Jenkins</span><span>Postman</span><span>Test Automation</span><span>API Testing</span><span>cURL</span>
+                    </div>
+                </div>
+                <div class="skill-group neon-card">
+                    <div class="card-corner tl"></div><div class="card-corner tr"></div>
+                    <div class="card-corner bl"></div><div class="card-corner br"></div>
+                    <h3>Systems &amp; Infrastructure</h3>
+                    <div class="skill-tags">
+                        <span>Parallel Systems</span><span>Distributed Systems</span><span>TCP/IP</span><span>Big Data</span>
+                    </div>
+                </div>
+                <div class="skill-group neon-card">
+                    <div class="card-corner tl"></div><div class="card-corner tr"></div>
+                    <div class="card-corner bl"></div><div class="card-corner br"></div>
+                    <h3>Tools &amp; Workflow</h3>
+                    <div class="skill-tags">
+                        <span>Git</span><span>Linux</span><span>IntelliJ</span><span>Vim</span><span>VS Code</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section class="section" id="projects">
+        <div class="section-inner">
+            <div class="section-label">// 03</div>
+            <h2 class="section-title">PROJECTS</h2>
+
+            <div class="featured-grid">
+                <div class="pdf-item featured-item" data-pdf="pdfs/CV.pdf" onclick="openPDF(this)">
+                    <div class="card-corner tl"></div><div class="card-corner tr"></div>
+                    <div class="card-corner bl"></div><div class="card-corner br"></div>
+                    <div class="featured-inner">
+                        <span class="feat-tag">FEATURED</span>
+                        <h3>CV</h3>
+                        <p class="feat-sub">Curriculum Vitae</p>
+                    </div>
+                </div>
+                <a class="pdf-item featured-item" href="WebGL/step_11.html">
+                    <div class="card-corner tl"></div><div class="card-corner tr"></div>
+                    <div class="card-corner bl"></div><div class="card-corner br"></div>
+                    <div class="featured-inner">
+                        <span class="feat-tag fire">LIVE</span>
+                        <h3 class="fire">WebGL</h3>
+                        <p class="feat-sub">Interactive 3D Project</p>
+                    </div>
+                </a>
+            </div>
+
+            <div class="pdf-gallery">
+                <div class="pdf-item" data-pdf="pdfs/AI.pdf" onclick="openPDF(this)"><p>A.I.</p></div>
+                <div class="pdf-item" data-pdf="pdfs/Thesis.pdf" onclick="openPDF(this)"><p>Solar Explorer</p></div>
+                <div class="pdf-item" data-pdf="pdfs/Image_processing_1.pdf" onclick="openPDF(this)"><p>Image Processing 1</p></div>
+                <div class="pdf-item" data-pdf="pdfs/Image_processing_2.pdf" onclick="openPDF(this)"><p>Image Processing 2</p></div>
+                <div class="pdf-item" data-pdf="pdfs/Image_Processing_3.pdf" onclick="openPDF(this)"><p>Image Processing 3</p></div>
+                <div class="pdf-item" data-pdf="pdfs/Image_Processing_4.pdf" onclick="openPDF(this)"><p>Image Processing 4</p></div>
+                <div class="pdf-item" data-pdf="pdfs/Big_Data.pdf" onclick="openPDF(this)"><p>Big Data</p></div>
+                <div class="pdf-item" data-pdf="pdfs/Distributed_Systems_1.pdf" onclick="openPDF(this)"><p>Distributed Systems 1</p></div>
+                <div class="pdf-item" data-pdf="pdfs/Distributed_Systems_2.pdf" onclick="openPDF(this)"><p>Distributed Systems 2</p></div>
+                <div class="pdf-item" data-pdf="pdfs/Data_Mining_1.pdf" onclick="openPDF(this)"><p>Data Mining 1</p></div>
+                <div class="pdf-item" data-pdf="pdfs/Data_mining_2.pdf" onclick="openPDF(this)"><p>Data Mining 2</p></div>
+                <div class="pdf-item" data-pdf="pdfs/Data_mining_3.pdf" onclick="openPDF(this)"><p>Data Mining 3</p></div>
+                <div class="pdf-item" data-pdf="pdfs/Machine_learning_1.pdf" onclick="openPDF(this)"><p>Machine Learning 1</p></div>
+                <div class="pdf-item" data-pdf="pdfs/Machine_Learning_2.pdf" onclick="openPDF(this)"><p>Machine Learning 2</p></div>
+                <div class="pdf-item" data-pdf="pdfs/Machine_Learning_3.pdf" onclick="openPDF(this)"><p>Machine Learning 3</p></div>
+                <div class="pdf-item" data-pdf="pdfs/MIPS.pdf" onclick="openPDF(this)"><p>MIPS</p></div>
+                <div class="pdf-item" data-pdf="pdfs/Design_and_Development_Systems.pdf" onclick="openPDF(this)"><p>Design &amp; Dev Systems</p></div>
+                <div class="pdf-item" data-pdf="pdfs/Information_retrival.pdf" onclick="openPDF(this)"><p>Info Retrieval</p></div>
+                <div class="pdf-item" data-pdf="pdfs/Compiler.pdf" onclick="openPDF(this)"><p>Compiler</p></div>
+                <div class="pdf-item" data-pdf="pdfs/Software_Engineer.pdf" onclick="openPDF(this)"><p>Software Engineer</p></div>
+                <div class="pdf-item" data-pdf="pdfs/TCP-analysis.pdf" onclick="openPDF(this)"><p>TCP Analysis</p></div>
+                <div class="pdf-item" data-pdf="pdfs/parking_manager.pdf" onclick="openPDF(this)"><p>Parking Manager</p></div>
+                <div class="pdf-item" data-pdf="pdfs/Firmware.pdf" onclick="openPDF(this)"><p>Firmware</p></div>
+                <div class="pdf-item" data-pdf="pdfs/Parallel_Systems_1.pdf" onclick="openPDF(this)"><p>Parallel Systems 1</p></div>
+                <div class="pdf-item" data-pdf="pdfs/Parallel_Systems_2.pdf" onclick="openPDF(this)"><p>Parallel Systems 2</p></div>
+                <div class="pdf-item" data-pdf="pdfs/Parallel_Systems_3.pdf" onclick="openPDF(this)"><p>Parallel Systems 3</p></div>
+                <div class="pdf-item" data-pdf="pdfs/ANALYSIS_AND_DESIGN_OF_INFORMATION_SYSTEMS.pdf" onclick="openPDF(this)"><p>Analysis &amp; Design IS</p></div>
+                <div class="pdf-item" data-pdf="pdfs/Java_App_Development_1.pdf" onclick="openPDF(this)"><p>Java App Dev 1</p></div>
+                <div class="pdf-item" data-pdf="pdfs/Java_App_Development_2.pdf" onclick="openPDF(this)"><p>Java App Dev 2</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-inner">
+            <span class="footer-name">PADELIS PROIOS</span>
+            <span class="footer-copy">&copy; 2023 — All rights reserved</span>
+        </div>
+    </footer>
+
+    <!-- PDF VIEWER MODAL -->
+    <div class="pdf-viewer" id="pdfViewer" onclick="closePDF()">
+        <div class="pdf-container" onclick="event.stopPropagation()">
+            <button class="pdf-close" onclick="closePDF()">✕ CLOSE</button>
+            <iframe class="pdf-display" id="pdfDisplay" src="" frameborder="0"></iframe>
+        </div>
     </div>
 
-    <div class="pdf-gallery">
-        <div class="pdf-item change-height" data-pdf="pdfs/CV.pdf" onclick="openPDF(this)"><h3>CV pdf</h3></div>
-        <a class="pdf-item change-height" href="WebGL/step_11.html"><h3 class="fire">WebGL project</h3></a>
+    <!-- AUDIO -->
+    <audio id="bgMusic" loop>
+        <source src="Kavinsky-Nightcall.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="audio-player">
+        <button class="audio-play-btn" id="audioPlayBtn">
+            <svg id="iconPlay" viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M8 5.5a1 1 0 0 0-1 1v11a1 1 0 0 0 1.5.866l9-5.5a1 1 0 0 0 0-1.732l-9-5.5A1 1 0 0 0 8 5.5z"/></svg>
+            <svg id="iconPause" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" style="display:none"><rect x="6" y="5" width="4" height="14" rx="1.5"/><rect x="14" y="5" width="4" height="14" rx="1.5"/></svg>
+        </button>
+        <div class="audio-info">
+            <div class="audio-title-wrap">
+                <span class="audio-title">KAVINSKY - NIGHTCALL.MP3</span>
+                <span class="audio-label">BACKGROUND</span>
+            </div>
+        </div>
+        <div class="audio-eq" id="audioEq">
+            <span></span><span></span><span></span>
+        </div>
+        <div class="audio-vol-wrap">
+            <span class="audio-vol-icon" id="audioVolIcon">
+                <svg id="iconVolHigh" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#00e676" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+                <svg id="iconVolMid" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#00e676" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+                <svg id="iconVolMute" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#00e676" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M11 5L6 9H2v6h4l5 4V5z"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
+            </span>
+            <input class="audio-volume" id="audioVolume" type="range" min="0" max="1" step="0.01" value="0.1">
+        </div>
     </div>
 
-    <div class="pdf-gallery">
-        <div class="pdf-item" data-pdf="pdfs/AI.pdf" onclick="openPDF(this)"><p>A.I.</p></div>
-        <div class="pdf-item" data-pdf="pdfs/Thesis.pdf" onclick="openPDF(this)"><p>Solar Explorer</p></div>
-        <div class="pdf-item" data-pdf="pdfs/Image_processing_1.pdf" onclick="openPDF(this)"><p>Image Processing 1</p></div>
-        <div class="pdf-item" data-pdf="pdfs/Image_processing_2.pdf" onclick="openPDF(this)"><p>Image Processing 2</p></div>
-        <div class="pdf-item" data-pdf="pdfs/Image_Processing_3.pdf" onclick="openPDF(this)"><p>Image Processing 3</p></div>
-        <div class="pdf-item" data-pdf="pdfs/Image_Processing_4.pdf" onclick="openPDF(this)"><p>Image Processing 4</p></div>
-        <div class="pdf-item" data-pdf="pdfs/Big_Data.pdf" onclick="openPDF(this)"><p>Big Data</p></div>
-        <div class="pdf-item" data-pdf="pdfs/Distributed_Systems_1.pdf" onclick="openPDF(this)"><p>Distributed Systems 1</p></div>
-        <div class="pdf-item" data-pdf="pdfs/Distributed_Systems_2.pdf" onclick="openPDF(this)"><p>Distributed Systems 2</p></div>
-        <div class="pdf-item" data-pdf="pdfs/Data_Mining_1.pdf" onclick="openPDF(this)"><p>Data Mining 1</p></div>
-        <div class="pdf-item" data-pdf="pdfs/Data_mining_2.pdf" onclick="openPDF(this)"><p>Data Mining 2</p></div>
-        <div class="pdf-item" data-pdf="pdfs/Data_mining_3.pdf" onclick="openPDF(this)"><p>Data Mining 3</p></div>
-        <div class="pdf-item" data-pdf="pdfs/Machine_learning_1.pdf" onclick="openPDF(this)"><p>Machine learning 1</p></div>
-        <div class="pdf-item" data-pdf="pdfs/Machine_Learning_2.pdf" onclick="openPDF(this)"><p>Machine learning 2</p></div>
-        <div class="pdf-item" data-pdf="pdfs/Machine_Learning_3.pdf" onclick="openPDF(this)"><p>Machine learning 3</p></div>
-        <div class="pdf-item" data-pdf="pdfs/MIPS.pdf" onclick="openPDF(this)"><p>MIPS</p></div>
-        <div class="pdf-item" data-pdf="pdfs/Design_and_Development_Systems.pdf" onclick="openPDF(this)"><p>Design and Development Systems</p></div>
-        <div class="pdf-item" data-pdf="pdfs/Information_retrival.pdf" onclick="openPDF(this)"><p>Information Retrival</p></div>
-        <div class="pdf-item" data-pdf="pdfs/Compiler.pdf" onclick="openPDF(this)"><p>Compiler</p></div>
-        <div class="pdf-item" data-pdf="pdfs/Software_Engineer.pdf" onclick="openPDF(this)"><p>Software Engineer</p></div>
-
-        <div class="pdf-item" data-pdf="pdfs/TCP-analysis.pdf" onclick="openPDF(this)"><p>TCP Analysis</p></div>
-        <div class="pdf-item" data-pdf="pdfs/parking_manager.pdf" onclick="openPDF(this)"><p>Parking Manager</p></div>
-        <div class="pdf-item" data-pdf="pdfs/Firmware.pdf" onclick="openPDF(this)"><p>Firmware</p></div>
-        <div class="pdf-item" data-pdf="pdfs/Parallel_Systems_1.pdf" onclick="openPDF(this)"><p>Parallel Systems 1</p></div>
-        <div class="pdf-item" data-pdf="pdfs/Parallel_Systems_2.pdf" onclick="openPDF(this)"><p>Parallel Systems 2</p></div>
-        <div class="pdf-item" data-pdf="pdfs/Parallel_Systems_3.pdf" onclick="openPDF(this)"><p>Parallel Systems 3</p></div>
-        <div class="pdf-item" data-pdf="pdfs/ANALYSIS_AND_DESIGN_OF_INFORMATION_SYSTEMS.pdf" onclick="openPDF(this)"><p>Analysis and Design of Information Systems</p></div>
-        <div class="pdf-item" data-pdf="pdfs/Java_App_Development_1.pdf" onclick="openPDF(this)"><p>Java App Development 1</p></div>
-        <div class="pdf-item" data-pdf="pdfs/Java_App_Development_2.pdf" onclick="openPDF(this)"><p>Java App Development 2</p></div>
-    </div>
-    
+    <script src="script.js"></script>
 </body>
 </html>
-
