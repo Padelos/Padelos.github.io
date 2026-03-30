@@ -18,6 +18,29 @@ html { scroll-behavior: smooth; }
 body { background-color: var(--bg); color: var(--text); font-family: var(--font-body); overflow-x: hidden; }
 a { text-decoration: none; color: inherit; }
 
+/* ─── Scrollbars ─────────────────────────────────────────── */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--green) transparent;
+}
+
+*::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+*::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+    background: var(--green);
+    border-radius: 3px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+    background: var(--green-glow);
+}
 /* ─── Scanlines ──────────────────────────────────────────── */
 .scanlines {
     pointer-events: none;
