@@ -13,11 +13,23 @@ function openPDF(element) {
     document.getElementById('pdfDisplay').src = element.getAttribute('data-pdf');
     document.getElementById('pdfViewer').classList.add('open');
     scanlines.classList.add('hidden');
+
+    if (typeof canvas !== 'undefined') {
+        document.getElementById('pdfViewer').appendChild(canvas);
+        // canvas.style.zIndex = '1';
+        // canvas.style.borderRadius = '4px';
+    }
 }
 
 function closePDF() {
     document.getElementById('pdfViewer').classList.remove('open');
     scanlines.classList.remove('hidden');
+
+    if (typeof canvas !== 'undefined') {
+        document.body.appendChild(canvas);
+        // canvas.style.zIndex = '-2';
+        // canvas.style.borderRadius = '0';
+    }
 }
 
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closePDF(); });
@@ -124,108 +136,64 @@ document.querySelectorAll('.neon-card, .stat-item, .pdf-item, .featured-item').f
     fadeObserver.observe(el);
 });
 
-// ── Matrix Background ─────────────────────────────────────
-// const canvas = document.createElement('canvas');
-// canvas.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;z-index:-2;pointer-events:none;opacity:0.12;';
-// document.body.appendChild(canvas);
 
-// const ctx = canvas.getContext('2d');
-// canvas.width  = window.innerWidth;
-// canvas.height = window.innerHeight;
+// ── Matrix runs on all devices ────────────────────────────
+const canvas = document.createElement('canvas');
+canvas.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;z-index:-2;pointer-events:none;';
+document.body.appendChild(canvas);
 
-// window.addEventListener('resize', () => {
-//     canvas.width  = window.innerWidth;
-//     canvas.height = window.innerHeight;
-// });
+const ctx = canvas.getContext('2d');
+canvas.width  = window.innerWidth;
+canvas.height = window.innerHeight;
 
-// const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノ';
-// const fontSize = 14;
-// const cols = Math.floor(canvas.width / fontSize);
-// const drops = Array(cols).fill(1);
+window.addEventListener('resize', () => {
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+});
 
-// setInterval(() => {
-//     ctx.fillStyle = 'rgba(0,0,0,0.05)';
-//     ctx.fillRect(0, 0, canvas.width, canvas.height);
+const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノ';
+const fontSize = 14;
+const cols = Math.floor(canvas.width / fontSize);
+const streams = Array(cols).fill(null);
 
-//     ctx.fillStyle = '#00e676';
-//     ctx.font = `${fontSize}px monospace`;
+streams.forEach((_, i) => {
+    if (Math.random() < 0.15) {
+        streams[i] = {
+            y: Math.floor(Math.random() * canvas.height / fontSize),
+            length: Math.floor(Math.random() * 8) + 4,
+            opacity: 1
+        };
+    }
+});
 
-//     drops.forEach((y, i) => {
-//         const char = chars[Math.floor(Math.random() * chars.length)];
-//         ctx.fillStyle = Math.random() > 0.95 ? '#fff' : '#00e676';
-//         ctx.globalAlpha = Math.random() * 0.5 + 0.1;
-//         ctx.fillText(char, i * fontSize, y * fontSize);
-//         if (y * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
-//         drops[i]++;
-//     });
-//     ctx.globalAlpha = 1;
-// }, 60);
+setInterval(() => {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+    streams.forEach((s, i) => {
+        if (!s) {
+            if (Math.random() > 0.998) {
+                streams[i] = { y: 0, length: Math.floor(Math.random() * 8) + 4, opacity: 1 };
+            }
+            return;
+        }
 
-// ── Matrix Background ─────────────────────────────────────
-// // document.querySelector('model-viewer').addEventListener('load', () => {
-// const canvas = document.createElement('canvas');
-// canvas.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;z-index:-2;pointer-events:none;';
-// document.body.appendChild(canvas);
+        for (let j = 0; j < s.length; j++) {
+            const trailY = s.y - j;
+            if (trailY < 0) continue;
+            const alpha = (1 - j / s.length) * s.opacity;
+            ctx.globalAlpha = alpha;
+            ctx.fillStyle = j === 0 ? '#ccffdd' : '#69ff9e';
+            ctx.font = `${fontSize}px monospace`;
+            ctx.fillText(chars[Math.floor(Math.random() * chars.length)], i * fontSize, trailY * fontSize);
+        }
 
-// const ctx = canvas.getContext('2d');
-// canvas.width  = window.innerWidth;
-// canvas.height = window.innerHeight;
+        s.y++;
 
-// window.addEventListener('resize', () => {
-//     canvas.width  = window.innerWidth;
-//     canvas.height = window.innerHeight;
-// });
+        if (s.y * fontSize > canvas.height) {
+            s.opacity -= 0.05;
+            if (s.opacity <= 0) streams[i] = null;
+        }
+    });
 
-// const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノ';
-// const fontSize = 14;
-// const cols = Math.floor(canvas.width / fontSize);
-
-// // Each column: { y, length, opacity }
-// const streams = Array(cols).fill(null);
-
-// streams.forEach((_, i) => {
-//     if (Math.random() < 0.15) {
-//         streams[i] = {
-//             y: Math.floor(Math.random() * canvas.height / fontSize),
-//             length: Math.floor(Math.random() * 8) + 4,
-//             opacity: 1
-//         };
-//     }
-// });
-
-// setInterval(() => {
-//     ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-//     streams.forEach((s, i) => {
-//         if (!s) {
-//             if (Math.random() > 0.998) {
-//                 streams[i] = { y: 0, length: Math.floor(Math.random() * 8) + 4, opacity: 1 };
-//             }
-//             return;
-//         }
-
-//         // Draw trail — characters behind head fade out
-//         for (let j = 0; j < s.length; j++) {
-//             const trailY = s.y - j;
-//             if (trailY < 0) continue;
-//             const alpha = (1 - j / s.length) * s.opacity;
-//             ctx.globalAlpha = alpha;
-//             ctx.fillStyle = j === 0 ? '#ccffdd' : '#69ff9e';
-//             ctx.font = `${fontSize}px monospace`;
-//             const char = chars[Math.floor(Math.random() * chars.length)];
-//             ctx.fillText(char, i * fontSize, trailY * fontSize);
-//         }
-
-//         s.y++;
-
-//         // Start fading when head goes off screen
-//         if (s.y * fontSize > canvas.height) {
-//             s.opacity -= 0.05;
-//             if (s.opacity <= 0) streams[i] = null;
-//         }
-//     });
-
-//     ctx.globalAlpha = 1;
-// }, 80);
-// // });
+    ctx.globalAlpha = 1;
+}, 80);
