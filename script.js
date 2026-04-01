@@ -256,7 +256,7 @@ function longestCommonPrefix(arr) {
     return prefix;
 }
 
-const allCmdNames = ['help','whoami','uname','job','experience','skills','timeline','contact','openpdf','listpdf','clear'];
+const allCmdNames = ['help','whoami','uname','job','experience','skills','timeline','contact','openpdf','listpdf','ls','cd','clear'];
 
 function toggleTerminal() {
     terminal.classList.toggle('open');
@@ -271,6 +271,13 @@ document.addEventListener('keydown', e => {
     }
 });
 
+const sections = {
+    '~':          () => window.scrollTo({ top: 0, behavior: 'smooth' }),
+    'home':       () => window.scrollTo({ top: 0, behavior: 'smooth' }),
+    'about':      () => document.getElementById('about').scrollIntoView({ behavior: 'smooth' }),
+    'skills':     () => document.getElementById('skills').scrollIntoView({ behavior: 'smooth' }),
+    'projects':   () => document.getElementById('projects').scrollIntoView({ behavior: 'smooth' }),
+};
 
 const commands = {
     help: () => [
@@ -302,7 +309,7 @@ const commands = {
         '<span class="t-green">OS</span>        <span class="t-white">Human v1.0 (Athens Edition)</span>',
         '<span class="t-green">HOST</span>      <span class="t-white">padelis@portfolio</span>',
         '<span class="t-green">KERNEL</span>    <span class="t-white">Informatics & Computer Engineering</span>',
-        '<span class="t-green">UPTIME</span>    <span class="t-white">since \'99</span>',
+        '<span class="t-green">UPTIME</span>    <span class="t-white">25+ years</span>',
         '<span class="t-green">SHELL</span>     <span class="t-white">curiosity</span>',
     ],
     job: () => [
@@ -346,6 +353,15 @@ const commands = {
         if (keys.length === 0) return ['<span class="t-red">No PDFs found.</span>'];
         return ['<span class="t-yellow">Available PDFs:</span>', ...keys.map(k => `  <span class="t-green">${k}</span>`)];
     },
+    ls: () => [
+        '<span class="t-yellow">Sections:</span>',
+        '  <span class="t-green">~</span>         — top of page',
+        '  <span class="t-green">home</span>      — top of page',
+        '  <span class="t-green">about</span>     — about me',
+        '  <span class="t-green">skills</span>    — skills',
+        '  <span class="t-green">projects</span>  — projects',
+    ],
+    cd: () => null,
     clear: () => null,
 };
 
@@ -365,6 +381,72 @@ function printCommand(cmd) {
     div.innerHTML = `<span class="t-green">padelis@portfolio</span><span class="t-dim">:</span><span class="t-blue">~</span><span class="t-dim">$</span> <span class="t-white">${cmd}</span>`;
     terminalOutput.appendChild(div);
 }
+// const datalist = document.getElementById('terminalDatalist'); //Native suggestion on mobile
+const suggestionsEl = document.getElementById('terminalSuggestions');
+
+function updateSuggestions(val) {
+    
+    if (window.innerWidth > 768) return;
+
+    suggestionsEl.innerHTML = '';
+    suggestionsEl.classList.remove('active');
+    // datalist.innerHTML = ''; //Native suggestion on mobile
+    if (!val.trim()) return;
+
+    const spaceIdx = val.indexOf(' ');
+    let matches = [];
+    let fillFn;
+
+    if (spaceIdx === -1) {
+        matches = allCmdNames.filter(c => c.startsWith(val.toLowerCase()));
+        fillFn = m => m + ' ';
+    } else {
+        const cmd = val.slice(0, spaceIdx).toLowerCase();
+        const arg = val.slice(spaceIdx + 1).toLowerCase();
+        if (cmd === 'openpdf') {
+            matches = Object.keys(pdfItems).filter(k => k.startsWith(arg));
+            fillFn = m => 'openpdf ' + m;
+        } else if (cmd === 'cd') {
+            matches = Object.keys(sections).filter(k => k.startsWith(arg));
+            fillFn = m => 'cd ' + m;
+        }
+
+        // Remove exact match from suggestions
+        if (arg) matches = matches.filter(m => m !== arg);
+    }
+    
+    console.log("len -> " +matches.length)
+    if (matches.length < 1) return;
+    suggestionsEl.classList.add('active');
+    matches.forEach(m => {
+        const btn = document.createElement('button');
+        btn.className = 'terminal-suggestion-btn';
+        btn.textContent = m;
+        btn.addEventListener('mousedown', e => {
+            e.preventDefault();
+            terminalInput.value = fillFn(m);
+            terminalInput.focus();
+            suggestionsEl.innerHTML = '';
+            suggestionsEl.classList.remove('active');
+        });
+        suggestionsEl.appendChild(btn);
+    });
+
+    //Native suggestion on mobile
+    // datalist.innerHTML = ''
+    // matches.forEach(m => {
+    //     const option = document.createElement('option');
+    //     option.value = fillFn(m);
+    //     datalist.appendChild(option);
+    // });
+}
+
+terminalInput.addEventListener('input', () => setTimeout(() =>updateSuggestions(terminalInput.value), 150));
+terminalInput.addEventListener('keydown', () => setTimeout(() => updateSuggestions(terminalInput.value), 0));
+terminalInput.addEventListener('blur', () => {
+    suggestionsEl.innerHTML = '';
+    suggestionsEl.classList.remove('active');
+});
 
 
 terminalInput.addEventListener('keydown', e => {
