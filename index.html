@@ -39,7 +39,11 @@
 
         <div class="hero-content">
             <div class="hero-tag">// SYSTEM ONLINE</div>
-            <h1 class="hero-name">PADELIS<br><span>PROIOS</span></h1>
+            <h1 class="hero-name">
+                <span>PADELIS</span>
+                <br>
+                <span class="last-name">PROIOS</span>
+            </h1>
             <p class="hero-sub">Informatics &amp; Computer Engineering Graduate</p>
             <p class="hero-location">
                 <span class="dot"></span> Attica, Athens
@@ -220,7 +224,15 @@
     <!-- PDF VIEWER MODAL -->
     <div class="pdf-viewer" id="pdfViewer" onclick="closePDF()">
         <div class="pdf-container" onclick="event.stopPropagation()">
-            <button class="pdf-close" onclick="closePDF()">✕ CLOSE</button>
+            <!-- ✕ -->
+            <button class="pdf-close" onclick="closePDF()">
+                <!-- <svg viewBox="0 0 24 24" width="8" height="8" fill="none" stroke="#00e676" stroke-width="2" stroke-linecap="round">
+                    <line x1="2" y1="2" x2="22" y2="22"></line>
+                    <line x1="22" y1="2" x2="2" y2="22"></line>
+                </svg> -->
+                ✕
+                CLOSE
+            </button>
             <iframe class="pdf-display" id="pdfDisplay" src="" frameborder="0"></iframe>
         </div>
     </div>

@@ -159,7 +159,7 @@ model-viewer {
     color: #fff;
     text-shadow: 0 0 20px rgba(255,255,255,0.3), 0 0 60px var(--green-glow);
 }
-.hero-name span {
+.hero-name .last-name {
     color: var(--green);
     text-shadow: 0 0 20px var(--green-glow), 0 0 50px var(--green-glow), 0 0 100px rgba(0,230,118,0.3);
 }
@@ -213,6 +213,7 @@ model-viewer {
 
 .scroll-cta {
     margin-top: 20px;
+    padding: 10px 0px;
     font-family: var(--font-display);
     font-size: 0.6rem;
     letter-spacing: 4px;
@@ -428,6 +429,7 @@ model-viewer {
     background: var(--bg-mid); border: none; border-bottom: 1px solid var(--border);
     color: var(--green); padding: 12px 24px; text-align: right;
     cursor: pointer; transition: background 0.2s;
+    /* display: flex; align-items: center; justify-content: flex-end; gap: 8px; */
 }
 .pdf-close:hover { background: rgba(0,230,118,0.1); }
 .pdf-display { flex: 1; width: 100%; border: none; }
