@@ -64,7 +64,7 @@
 <body onload="main()">
 <button value="Stop"  onclick="help()" class ="borderless-button"><i class="fa-solid fa-circle-info fa-2xl circle-info" style="color: #b22a2a;"></i></button>
 <div style = "text-align:center;">
-	<canvas id="sceneCanvas" width="750" height="750" style="border:1px solid" ></canvas>
+	<canvas id="sceneCanvas" width="750" height="750" style="border:1px solid; max-width: 100%" ></canvas>
 	
 	<br>View Angle (degrees):<input type="text" id="viewAngle" value="90" autocomplete="off" oninput="this.value = this.value.replace(/\D+/g, '')">-180<input type="range" id="rangeAngleView" min="-180" max="180" value="90.0" step="1">180
 	
