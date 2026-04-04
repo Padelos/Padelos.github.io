@@ -709,6 +709,10 @@ footer {
         max-width: calc(100vw - 32px);
     }
 }
+@media (max-height: 490px){
+    /* .terminal {height: 250px;} */
+    .terminal {height: calc(100vh - 150px); min-height: 150px;}
+}
 
 @media (max-width: 365px) {
     .audio-title-wrap { width: 60px; }
